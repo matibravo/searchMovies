@@ -5,7 +5,7 @@ import { GrupoTarjetas } from './componente/GrupoTarjetas';
 export const BuscadorPeliculas = () => {
 
     const urlBase = 'https://api.themoviedb.org/3';
-    const apiKey = import.meta.env.VITE_API_KEY;
+    const token = import.meta.env.VITE_TOKEN;
     const [buscar, setbuscar] = useState('');
     const [peliculas, setPeliculas] = useState([]);
     const [mensaje, setMensaje] = useState('');
@@ -22,29 +22,19 @@ export const BuscadorPeliculas = () => {
         
         (inputValue.length > 0) ? getMovies() : setMensaje('Debe ingresar un nombre de película para poder buscar');        
     }
-
-    const getMoviesTrailer = async (idMovie) => {
-        try {
-            const response = await fetch(`${urlBase}/movie/${idMovie}&api_key=${apiKey}`);
-            const data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
+    
     const getMovies = async () => {
-        let arregloId = []
-
+        
         try {
             setLoading(true)
-            const response = await fetch(`${urlBase}/search/movie?query=${buscar}&api_key=${apiKey}`);
+            const response = await fetch(`${urlBase}/search/movie?query=${buscar}`,  {
+                headers: { "Authorization": `Bearer ${token}`,
+                           "Content-Type": "application/json" }
+            });
             const data = await response.json();
 
             console.log(data.results);
             if (data.results.length === 0) setMensaje('No existen películas asociadas a su búsqueda.')
-            arregloId = data.results.map(pelicula => pelicula.id)
-            console.log(arregloId);
             setPeliculas(data.results);
             setLoading(false)
 
