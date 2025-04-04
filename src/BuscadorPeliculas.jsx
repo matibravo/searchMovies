@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Spinner } from './componente/Spinner';
 import { GrupoTarjetas } from './componente/GrupoTarjetas';
 
@@ -20,10 +20,10 @@ export const BuscadorPeliculas = () => {
         e.preventDefault();
         let inputValue = e.target[0].value.trim();
         
-        (inputValue.length > 0) ? getMovies() : setMensaje('Debe ingresar un nombre de película para poder buscar');        
+        (inputValue.length > 0) ? getMoviesSearch() : setMensaje('Debe ingresar un nombre de película para poder buscar');        
     }
     
-    const getMovies = async () => {
+    const getMoviesSearch = async () => {
         
         try {
             setLoading(true)
@@ -44,6 +44,32 @@ export const BuscadorPeliculas = () => {
             setLoading(false)            
         }
     }
+
+    const getMovies = async () => {
+        try {
+            const response = await fetch(`${urlBase}/movie/popular?language=en-US&page=1`, {
+                headers: { "Authorization": `Bearer ${token}`,
+                           "Content-Type": "application/json" }
+            });
+            const data = await response.json();
+
+            if (!response.ok) throw (data)
+
+            if (data?.results) {
+                setPeliculas(data.results)
+            } else {
+                setMensaje('No existen peliculas para su búsqueda')
+            }
+
+        } catch (error) {
+            console.log('fallo: ', error)   
+            setMensaje('Ops ha ocurrido un error 😟')         
+        }
+    }
+
+    useEffect(() => {
+        getMovies()
+    }, [])
 
   return (
     <div className="container">

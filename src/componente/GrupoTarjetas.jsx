@@ -51,7 +51,10 @@ export const GrupoTarjetas = ({peliculas, mensaje}) => {
                                     pelicula.poster_path === null ? (
                                         <img src={imagenNoDisponible} className="card-img-top" alt={pelicula.title} />
                                         ) : (
-                                            <img src={`https://image.tmdb.org/t/p/w500${pelicula.poster_path}`} className="card-img-top" alt={pelicula.title} />
+                                            <img src={`https://image.tmdb.org/t/p/w500${pelicula.poster_path}`} 
+                                                className="card-img-top"
+                                                
+                                                alt={pelicula.title} />
                                             )
                                 }
                                 <div className="card-body">

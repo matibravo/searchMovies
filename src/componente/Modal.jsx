@@ -8,10 +8,9 @@ export const Modal = ({show, close, urlVideo}) => {
   return (
     <div className="modal show d-block" tabIndex="-1" role="dialog">
         <div className="modal-dialog modal-xl">
-            <div className="modal-content">
-                <div className="modal-header">
-                    <h5 className="modal-title">Watch Trailer</h5>
-                    <button type="button" className="btn-close" onClick={close}></button>
+            <div className="modal-content bg-dark text-white">
+                <div className="modal-header bg-dark ">
+                    <h5 className="modal-title bg-dark text-white">Watch Trailer</h5>                    
                 </div>
                 <div className="modal-body">
                     {
